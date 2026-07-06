@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TSAD Agent</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <section id="welcomeScreen" class="welcome-screen">
+      <canvas id="welcomeCanvas" class="welcome-canvas"></canvas>
+      <div class="welcome-grid"></div>
+      <div class="welcome-shell">
+        <nav class="welcome-nav">
+          <div class="logo-mark">TS</div>
+          <span>TSAD Agent</span>
+        </nav>
+        <div class="welcome-content">
+          <p class="eyebrow"><span class="mini-icon spectrum"></span>Time Series Anomaly Detection Agent</p>
+          <h1>面向时序异常检测的智能分析工作台</h1>
+          <p class="welcome-copy">
+            调用专业检测层生成异常证据，再由 LLM 将分数、窗口和变量贡献转化为可读的诊断结论。
+          </p>
+          <div class="welcome-actions">
+            <button id="startAppBtn" class="hero-button"><span class="button-icon">→</span>开始使用</button>
+          </div>
+        </div>
+        <div class="welcome-preview" aria-hidden="true">
+          <div class="preview-top">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="preview-chart">
+            <canvas id="previewChartCanvas" class="preview-chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main id="appShell" class="shell hidden" style="--chat-width: 380px;">
+      <aside id="sidebar" class="sidebar">
+        <div class="brand panel-surface">
+          <div class="brand-title">
+            <span class="app-icon">TS</span>
+            <div>
+            <h1>TSAD Agent</h1>
+            <p>检测配置与运行状态</p>
+            </div>
+          </div>
+          <button id="hideSidebarBtn" class="icon-button" type="button" title="隐藏控制台">收起</button>
+        </div>
+
+        <section class="panel panel-surface">
+          <h2><span class="mini-icon blue"></span>检测配置</h2>
+          <label>
+            检测层方法
+            <select id="detectorSelect">
+              <option value="MtsCID">MtsCID</option>
+              <option value="Anomaly Transformer" disabled>Anomaly Transformer（待接入）</option>
+              <option value="TranAD" disabled>TranAD（待接入）</option>
+              <option value="USAD" disabled>USAD（待接入）</option>
+            </select>
+          </label>
+          <label>
+            数据集
+            <select id="datasetSelect">
+              <option value="PSM">PSM</option>
+            </select>
+          </label>
+          <label>
+            阈值策略
+            <select id="thresholdSelect">
+              <option value="optimal">optimal</option>
+              <option value="preset">preset</option>
+            </select>
+          </label>
+          <label>
+            异常比例
+            <input id="anomalyRatioInput" type="number" min="0.1" max="100" step="0.1" value="1.0" />
+          </label>
+          <label>
+            窗口长度
+            <input id="winSizeInput" type="number" min="10" step="10" value="100" />
+          </label>
+          <label>
+            批大小
+            <input id="batchSizeInput" type="number" min="1" step="1" value="64" />
+          </label>
+          <button id="runDetectBtn" class="primary">运行检测</button>
+          <p id="statusText" class="status">等待检测</p>
+        </section>
+
+        <section class="panel panel-surface">
+          <h2><span class="mini-icon pink"></span>指标</h2>
+          <div id="metricsGrid" class="metrics"></div>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <header class="workspace-header panel-surface">
+          <div>
+            <p class="eyebrow"><span class="mini-icon spectrum"></span>Detection Workspace</p>
+            <h2>异常检测结果</h2>
+          </div>
+          <div class="toolbar">
+            <button id="toggleSidebarBtn" class="ghost-button" type="button">控制台</button>
+            <button id="toggleChatBtn" class="ghost-button" type="button">LLM 分析</button>
+          </div>
+        </header>
+
+        <section class="chart-panel panel-surface">
+          <div class="section-title">
+            <h2><span class="mini-icon green"></span>异常分数</h2>
+            <div class="chart-title-actions">
+              <span id="resultMeta"></span>
+              <div class="range-controls">
+                <label class="range-field">
+                  起始步
+                  <input id="rangeStartInput" type="number" min="0" step="1" value="0" />
+                </label>
+                <label class="range-field">
+                  结束步
+                  <input id="rangeEndInput" type="number" min="1" step="1" value="1" />
+                </label>
+                <button id="applyRangeBtn" class="range-action" type="button">应用</button>
+                <button id="resetRangeBtn" class="range-action" type="button">全量</button>
+              </div>
+            </div>
+          </div>
+          <div id="chartViewport" class="chart-viewport">
+            <canvas id="scoreCanvas"></canvas>
+          </div>
+        </section>
+
+        <section class="windows-panel panel-surface">
+          <div class="section-title">
+            <h2><span class="mini-icon orange"></span>异常窗口</h2>
+            <span id="windowCount">0</span>
+          </div>
+          <div id="summaryGrid" class="summary"></div>
+          <div id="windowsList" class="windows-list"></div>
+        </section>
+      </section>
+
+      <div id="chatResizer" class="chat-resizer" title="拖动调整 LLM 分析宽度"></div>
+
+      <aside id="chatPanel" class="chat panel-surface">
+        <div class="chat-head">
+          <div>
+            <h2><span class="mini-icon purple"></span>LLM 分析</h2>
+            <span id="selectedWindowLabel">全局</span>
+          </div>
+          <button id="hideChatBtn" class="icon-button" type="button" title="隐藏 LLM 分析">收起</button>
+        </div>
+        <label class="model-label">
+          模型
+          <select id="llmModelSelect">
+            <option value="deepseek-v4-flash">deepseek-v4-flash</option>
+            <option value="deepseek-v4-pro">deepseek-v4-pro</option>
+            <option value="deepseek-chat">deepseek-chat</option>
+          </select>
+        </label>
+        <div id="chatMessages" class="chat-messages"></div>
+        <form id="chatForm" class="chat-form">
+          <textarea id="chatInput" rows="3" placeholder="询问异常原因、变量贡献或排查建议"></textarea>
+          <button type="submit"><span class="button-icon">↑</span>发送</button>
+        </form>
+      </aside>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

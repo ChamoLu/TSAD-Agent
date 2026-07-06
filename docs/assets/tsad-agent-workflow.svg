@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="620" viewBox="0 0 1280 620" role="img" aria-labelledby="title desc">
+  <title id="title">TSAD Agent workflow</title>
+  <desc id="desc">A cartoon-style workflow diagram showing data, detector layer, evidence pack, LLM analyst, and local web UI.</desc>
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#1f2937" flood-opacity="0.14"/>
+    </filter>
+    <linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="0.45" stop-color="#10b981"/>
+      <stop offset="0.72" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7ed"/>
+      <stop offset="1" stop-color="#eff6ff"/>
+    </linearGradient>
+    <style>
+      .paper { fill: #fbfdff; }
+      .grid { stroke: #dbe4ef; stroke-width: 1; opacity: .5; }
+      .card { fill: #ffffff; stroke: #1f2937; stroke-width: 3.5; filter: url(#softShadow); }
+      .card2 { fill: url(#warm); stroke: #1f2937; stroke-width: 3.5; filter: url(#softShadow); }
+      .small { fill: #f8fafc; stroke: #94a3b8; stroke-width: 2; }
+      .title { font: 800 30px "Comic Sans MS", "Trebuchet MS", Arial, sans-serif; fill: #111827; }
+      .label { font: 700 22px "Comic Sans MS", "Trebuchet MS", Arial, sans-serif; fill: #1f2937; }
+      .note { font: 600 16px "Comic Sans MS", "Trebuchet MS", Arial, sans-serif; fill: #64748b; }
+      .arrow { fill: none; stroke: #111827; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .dash { fill: none; stroke: #8b5cf6; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 8 12; }
+      .spark { fill: url(#rainbow); }
+      .score { fill: none; stroke: url(#rainbow); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .orange { fill: rgba(249,115,22,.14); stroke: none; }
+    </style>
+  </defs>
+
+  <rect class="paper" x="0" y="0" width="1280" height="620" rx="30"/>
+  <g>
+    <path class="grid" d="M80 40v540M180 40v540M280 40v540M380 40v540M480 40v540M580 40v540M680 40v540M780 40v540M880 40v540M980 40v540M1080 40v540M1180 40v540"/>
+    <path class="grid" d="M40 90h1200M40 190h1200M40 290h1200M40 390h1200M40 490h1200"/>
+  </g>
+
+  <text class="title" x="64" y="62">TSAD Agent: detector evidence + LLM reasoning</text>
+  <path class="dash" d="M58 76 C260 120, 360 14, 572 72 S960 122, 1218 68"/>
+
+  <g transform="translate(58 150) rotate(-2)">
+    <rect class="card2" x="0" y="0" width="190" height="220" rx="28"/>
+    <text class="label" x="28" y="48">CSV / PSM</text>
+    <text class="note" x="28" y="76">time-series data</text>
+    <rect class="small" x="30" y="110" width="130" height="74" rx="14"/>
+    <path class="score" d="M42 160 C58 128, 70 178, 86 138 S118 154, 132 121 S150 168, 162 142"/>
+    <circle class="spark" cx="154" cy="104" r="10"/>
+  </g>
+
+  <path class="arrow" d="M266 258 C305 238, 326 238, 365 258"/>
+  <path class="arrow" d="M351 242 L370 258 L350 274"/>
+
+  <g transform="translate(386 130) rotate(1)">
+    <rect class="card" x="0" y="0" width="220" height="260" rx="30"/>
+    <text class="label" x="32" y="48">Detector Layer</text>
+    <text class="note" x="32" y="78">MtsCID today</text>
+    <text class="note" x="32" y="104">More TSAD methods later</text>
+    <g transform="translate(38 128)">
+      <rect class="small" x="0" y="0" width="144" height="82" rx="18"/>
+      <path class="score" d="M16 60 C28 35, 42 68, 54 38 S78 62, 92 28 S116 68, 128 44"/>
+      <rect class="orange" x="92" y="10" width="22" height="68" rx="6"/>
+    </g>
+  </g>
+
+  <path class="arrow" d="M626 260 C674 238, 710 238, 752 260"/>
+  <path class="arrow" d="M738 244 L758 260 L738 278"/>
+
+  <g transform="translate(774 150) rotate(-1)">
+    <rect class="card2" x="0" y="0" width="206" height="220" rx="28"/>
+    <text class="label" x="30" y="48">Evidence Pack</text>
+    <text class="note" x="30" y="78">scores</text>
+    <text class="note" x="30" y="104">windows</text>
+    <text class="note" x="30" y="130">metrics</text>
+    <text class="note" x="30" y="156">top variables</text>
+    <circle class="spark" cx="164" cy="68" r="12"/>
+    <circle class="spark" cx="154" cy="108" r="8"/>
+    <circle class="spark" cx="170" cy="148" r="10"/>
+  </g>
+
+  <path class="arrow" d="M1000 260 C1036 236, 1060 236, 1098 260"/>
+  <path class="arrow" d="M1084 244 L1104 260 L1084 278"/>
+
+  <g transform="translate(1114 130) rotate(2)">
+    <rect class="card" x="0" y="0" width="132" height="260" rx="30"/>
+    <text class="label" x="22" y="48">LLM</text>
+    <text class="note" x="22" y="78">DeepSeek</text>
+    <path class="score" d="M24 138 C38 96, 54 178, 70 122 S100 144, 108 104"/>
+    <path class="dash" d="M24 180 C48 198, 72 198, 108 176"/>
+  </g>
+
+  <path class="arrow" d="M1010 388 C860 530, 520 550, 250 412"/>
+  <path class="arrow" d="M265 433 L246 410 L278 407"/>
+
+  <g transform="translate(365 430)">
+    <rect class="card2" x="0" y="0" width="540" height="120" rx="30"/>
+    <text class="label" x="34" y="48">Local Web UI</text>
+    <text class="note" x="34" y="78">run detection, inspect charts, ask questions, keep panels flexible</text>
+    <rect x="402" y="30" width="92" height="48" rx="14" fill="url(#rainbow)" opacity=".9"/>
+    <text x="426" y="62" font-family="Comic Sans MS, Trebuchet MS, Arial" font-size="20" font-weight="800" fill="#fff">Chat</text>
+  </g>
+</svg>
