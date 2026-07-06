@@ -2,17 +2,16 @@
 
 TSAD Agent 是一个本地运行的**时序异常检测 + LLM 分析**系统。检测层负责产生异常分数、异常窗口和指标；LLM 负责把这些结果解释成可读的分析结论。
 
-当前版本：
 
+![image](https://github.com/ChamoLu/TSAD-Agent/blob/main/docs/assets/tsad-agent-workflow.svg)
+
+
+当前版本：
 - 检测层：`MtsCID`
 - 示例数据集：`PSM`
 - 后端：`FastAPI`
 - 前端：本地 HTML 页面
 - LLM：`DeepSeek API`
-
-
-![image](https://github.com/ChamoLu/TSAD-Agent/blob/main/docs/assets/tsad-agent-workflow.svg)
-
 
 ## 项目意义
 
